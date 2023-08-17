@@ -7,32 +7,21 @@
 // @lc code=start
 class Solution {
 public:
+    void backtrack(int idx,vector<int>& nums,vector<vector<int>>& res){
+        if(idx==nums.size()){
+            res.push_back(nums);
+        }else{
+            for(int i=idx;i<nums.size();i++){
+                swap(nums[idx],nums[i]);
+                backtrack(idx+1,nums,res);
+                swap(nums[idx],nums[i]);
+            }
+        }
+    }
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> res;
-        if (nums.size() == 1) {
-            vector<int> singleList;
-            singleList.push_back(nums[0]);
-            res.push_back(singleList);
-            return res;
-        }
-
-        for (int i = 0; i < nums.size(); i++) {
-            int n = nums[i];
-            vector<int> remainingNums;
-            for (int j = 0; j < nums.size(); j++) {
-                if (j != i) {
-                    remainingNums.push_back(nums[j]);
-                }
-            }
-            
-            vector<vector<int>> perms = permute(remainingNums);
-            for (vector<int> p : perms) {
-                p.insert(p.begin(), n);  // Insert n at the beginning of the permutation
-                res.push_back(p);  // Append the modified permutation to the result
-            }
-        }
-        
-        return res;    
+        backtrack(0,nums,res);
+        return res; 
     }
 };
 // @lc code=end
