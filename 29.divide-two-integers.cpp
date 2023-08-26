@@ -8,21 +8,36 @@
 class Solution {
 public:
     int divide(int dividend, int divisor) {
+        long long a=(long long)dividend;
+        long long b=(long long)divisor;
+        bool flag;
         if(dividend == 0) {
             return 0;
         }
-        if(dividend == -2147483648 && divisor == -1) {
-            return 2147483647;
+        if(dividend==INT_MIN && divisor==-1){
+            return INT_MAX;
         }
-        if(dividend == 1000000000 && divisor == 1) {
-            return 1000000000;
+        if(dividend==INT_MIN && divisor==1){
+            return INT_MIN;
         }
-        int sign = ((dividend) < 0) ^ (divisor < 0)? -1: 1;
-        long long int ans = 0;
-        long long int dd = abs(dividend);
-        long long int dv = abs(divisor);
-        ans = exp((log(dd)) - (log(dv))) + 0.0000000001;
-        return (sign < 0) ? (~ans + 1) : ans;
+        if((a>0 && b>0)||(a<0 && b<0)){
+            flag=1;
+        }else{
+            flag=0;
+        }
+        a=abs(a);b=abs(b);
+        long long temp=0;
+        long long ans=0;
+        for(int i=31;i>=0;i--){
+            if(temp+(b<<i)<=a){
+                temp+=(b<<i);
+                ans+=(1<<i);
+            }
+        }
+        if(!flag){
+            ans=-ans;
+        }
+        return ans;
     }
 };
 // @lc code=end
